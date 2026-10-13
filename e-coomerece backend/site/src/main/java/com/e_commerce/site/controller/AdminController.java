@@ -9,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/admin")
+@CrossOrigin(origins = "https://reimagined-succotash-pjgw77jjw69j29747-5173.app.github.dev")
 public class AdminController {
 
     @Autowired
