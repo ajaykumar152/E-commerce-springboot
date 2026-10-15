@@ -25,10 +25,6 @@ public class Products {
     @JsonIgnore
     private List<OrderDetails> orderDetails;
 
-    @OneToMany(mappedBy="product")
-    @JsonIgnore
-    private List<OrderHistory> orderHistory;
-
     public String getId() {
         return id;
     }
@@ -93,13 +89,5 @@ public class Products {
 
     public void setOrderDetails(List<OrderDetails> orderDetails) {
         this.orderDetails = orderDetails;
-    }
-
-    public void setOrderHistory(List<OrderHistory> orderHistory) {
-        this.orderHistory = orderHistory;
-    }
-
-    public List<OrderHistory> getOrderHistory() {
-        return orderHistory;
     }
 }

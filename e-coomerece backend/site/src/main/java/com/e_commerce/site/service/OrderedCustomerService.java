@@ -10,5 +10,6 @@ import java.util.List;
 public interface OrderedCustomerService {
     boolean findUser(OrderedProductDTO orderedProductDTO, String username);
     boolean findCartUser(String username, OrderedProductDTO orderedProductDTO);
-    List<GetActiveOrdersProductDTO> getUser(String username);
+    List<GetActiveOrdersProductDTO> getUser(String username, int page);
+    List<GetActiveOrdersProductDTO> findUser(String username, int page);
 }

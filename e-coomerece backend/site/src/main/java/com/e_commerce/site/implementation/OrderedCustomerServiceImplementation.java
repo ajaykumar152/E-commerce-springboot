@@ -57,12 +57,21 @@ public class OrderedCustomerServiceImplementation implements OrderedCustomerServ
         }
     }
 
-    public List<GetActiveOrdersProductDTO> getUser(String username){
+    public List<GetActiveOrdersProductDTO> getUser(String username, int page){
         OrderedCustomer orderedCustomer = orderedCustomerRepository.findByCustomer_CustomerUsername(username);
         if (orderedCustomer == null) {
             return null;
         } else {
-            return orderDetailsServiceImplementation.getAllActiveOrders(orderedCustomer.getId());
+            return orderDetailsServiceImplementation.getAllActiveOrders(orderedCustomer.getId(), page);
+        }
+    }
+
+    public List<GetActiveOrdersProductDTO> findUser(String username, int page){
+        OrderedCustomer orderedCustomer = orderedCustomerRepository.findByCustomer_CustomerUsername(username);
+        if (orderedCustomer == null) {
+            return null;
+        } else {
+            return orderDetailsServiceImplementation.getAllInActiveOrders(orderedCustomer.getId(), page);
         }
     }
 }

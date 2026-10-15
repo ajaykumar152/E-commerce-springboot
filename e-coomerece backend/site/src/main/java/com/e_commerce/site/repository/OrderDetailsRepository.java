@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Long> {
     List<OrderDetails> findAllByOrderedCustomerIdAndProductsId(Long customer_id, String product_id);
-    List<GetActiveOrdersProductDTO> findAllByOrderedCustomerIdAndStatusOrStatus(Long customer_id, String preparing, String Shipped, Pageable pageable);
+    List<GetActiveOrdersProductDTO> findAllByOrderedCustomerIdAndStatusOrStatus(Long customer_id, String Preparing, String Shipped, Pageable pageable);
 }

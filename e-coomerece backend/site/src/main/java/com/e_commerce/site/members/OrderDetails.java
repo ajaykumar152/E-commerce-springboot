@@ -123,7 +123,7 @@ public class OrderDetails {
     }
 
     public void setQuantity(int quantity) {
-        quantity = quantity;
+        this.quantity = quantity;
     }
 
     public Products getProducts() {

@@ -86,12 +86,25 @@ public class OrderDetailsServiceImplementation implements OrderDetailsService {
     }
 
     @Override
-    public List<GetActiveOrdersProductDTO> getAllActiveOrders(Long customerId) {
-        Pageable pageable = PageRequest.of(0, 10);
+    public List<GetActiveOrdersProductDTO> getAllActiveOrders(Long customerId, int page) {
+        Pageable pageable = PageRequest.of(page, 10);
         List<GetActiveOrdersProductDTO> getActiveOrdersProductDTO = orderDetailsRepository.findAllByOrderedCustomerIdAndStatusOrStatus(customerId, "Preparing", "Shipped", pageable);
         return  getActiveOrdersProductDTO;
     }
 
+    @Override 
+    public boolean cancelOrder(Long orderId) {
+        OrderDetails orderDetails = orderDetailsRepository.findById(orderId)
+                                    .orElseThrow(() -> new RuntimeException("Order not found"));
+        orderDetails.setStatus("Cancelled");
+        orderDetailsRepository.save(orderDetails);
+        return true;
+    }
 
+    @Override 
+    public List<GetActiveOrdersProductDTO> getAllInActiveOrders(Long customerId, int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        List<GetActiveOrdersProductDTO> getActiveOrdersProductDTO = orderDetailsRepository.findAllByOrderedCustomerIdAndStatusOrStatus(customerId, "Cancelled", "Delivered", pageable);
+        return  getActiveOrdersProductDTO;
+    }
 }
-

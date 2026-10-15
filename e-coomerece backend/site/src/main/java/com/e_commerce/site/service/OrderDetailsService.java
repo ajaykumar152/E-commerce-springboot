@@ -12,5 +12,7 @@ public interface OrderDetailsService {
     boolean addOrderedProduct(OrderedProductDTO orderedProductDTO, OrderedCustomer orderedCustomer);
     boolean addAllCartProducts(Long cartId, OrderedProductDTO orderedProductDTO,  OrderedCustomer orderedCustomer);
     boolean searchForProduct(OrderedProductDTO orderedProductDTO, OrderedCustomer orderedCustomer);
-    List<GetActiveOrdersProductDTO>  getAllActiveOrders(Long customerId);
+    List<GetActiveOrdersProductDTO>  getAllActiveOrders(Long customerId, int page);
+    boolean cancelOrder(Long orderId);
+    List<GetActiveOrdersProductDTO>  getAllInActiveOrders(Long customerId, int page);
 }

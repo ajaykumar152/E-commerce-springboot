@@ -8,4 +8,5 @@ public interface GetActiveOrdersProductDTO {
     int getQuantity();
     Products getProducts();
     String getDate();
+    String getStatus();
 }

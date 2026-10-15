@@ -2,6 +2,7 @@ package com.e_commerce.site.controller;
 
 import com.e_commerce.site.DTO.GetActiveOrdersProductDTO;
 import com.e_commerce.site.DTO.OrderedProductDTO;
+import com.e_commerce.site.implementation.OrderDetailsServiceImplementation;
 import com.e_commerce.site.implementation.OrderedCustomerServiceImplementation;
 import com.e_commerce.site.members.OrderDetails;
 import com.e_commerce.site.members.Products;
@@ -19,6 +20,9 @@ public class OrderDetailsController {
 
     @Autowired
     private OrderedCustomerServiceImplementation orderedCustomerServiceImplementation;
+
+    @Autowired
+    private OrderDetailsServiceImplementation orderDetailsServiceImplementation;
 
     @PostMapping("/{username}")
     public ResponseEntity<Boolean> addOrderDetails(@PathVariable String username, @RequestBody OrderedProductDTO orderedProductDTO) {
@@ -41,14 +45,26 @@ public class OrderDetailsController {
         }
     }
 
-    @GetMapping
-    public ResponseEntity<List<GetActiveOrdersProductDTO>>  getActiveOrdersProducts(@RequestParam String username) {
+    @GetMapping("/active")
+    public ResponseEntity<List<GetActiveOrdersProductDTO>>  getActiveOrdersProducts(@RequestParam String username, @RequestParam int page) {
         try {
-            List<GetActiveOrdersProductDTO> getActiveOrdersProductDTOS = orderedCustomerServiceImplementation.getUser(username);
+            List<GetActiveOrdersProductDTO> getActiveOrdersProductDTOS = orderedCustomerServiceImplementation.getUser(username, page);
             return new ResponseEntity<>(getActiveOrdersProductDTOS, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return  new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    
+    @PutMapping("/cancel/{orderId}")
+    public ResponseEntity<Boolean> updateOrderStatus(@PathVariable Long orderId) {
+        boolean updated = orderDetailsServiceImplementation.cancelOrder(orderId);
+        return new ResponseEntity<>(updated, HttpStatus.OK);   
+    }
+
+    @GetMapping("/inactive")
+    public ResponseEntity<List<GetActiveOrdersProductDTO>> getInActiveProducts(@RequestParam String username, @RequestParam int page) {
+        List<GetActiveOrdersProductDTO> getActiveOrdersProductDTOs = orderedCustomerServiceImplementation.findUser(username, page);
+        return new ResponseEntity<>(getActiveOrdersProductDTOs, HttpStatus.OK); 
     }
 }
