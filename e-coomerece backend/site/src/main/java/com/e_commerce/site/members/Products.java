@@ -16,6 +16,7 @@ public class Products {
     private Double price = 0.0;
     private String productLink;
     private String productType;
+    private String productDescription;
 
     @OneToMany(mappedBy = "products")
     @JsonIgnore
@@ -36,11 +37,12 @@ public class Products {
     public Products() {
     }
 
-    public Products(Long id, String productName, Double price, String productLink, String productType) {
+    public Products(Long id, String productName, Double price, String productLink, String productType, String productDescription) {
         this.productName = productName;
         this.price = price;
         this.productLink = productLink;
         this.productType = productType;
+        this.productDescription = productDescription;
     }
 
     public String getProductType() {
@@ -89,5 +91,13 @@ public class Products {
 
     public void setOrderDetails(List<OrderDetails> orderDetails) {
         this.orderDetails = orderDetails;
+    }
+
+    public String getProductDescription() {
+        return productDescription;
+    }
+
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
     }
 }

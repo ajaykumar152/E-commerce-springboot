@@ -2,6 +2,8 @@ package com.e_commerce.site.controller;
 
 import com.e_commerce.site.implementation.ProductImplementation;
 import com.e_commerce.site.members.Products;
+import com.e_commerce.site.DTO.GetNewProductDTO;
+import com.e_commerce.site.DTO.SendHomePageProductsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -20,8 +22,8 @@ public class ProductController {
     private ProductImplementation productImplementation;
 
     @PostMapping
-    public ResponseEntity<String> addProduct(@RequestParam Double price, @RequestParam String name, @RequestParam String type, @RequestParam MultipartFile image) {
-        boolean result = productImplementation.addProduct(price, name, type, image);
+    public ResponseEntity<String> addProduct(@RequestBody GetNewProductDTO productDTO) {
+        boolean result = productImplementation.addProduct(productDTO);
 
         if (result) {
             return new ResponseEntity<>("Product added", HttpStatus.OK);
@@ -42,13 +44,40 @@ public class ProductController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<Page<Products>> getProducts(@RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<Page<SendHomePageProductsDTO>> getProducts(@RequestParam int page, @RequestParam int size) {
         try {
-            Page<Products> products = productImplementation.getProducts(page, size);
+            Page<SendHomePageProductsDTO> products = productImplementation.getProducts(page, size);
             return new ResponseEntity<>(products, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/info/{productId}")
+    public ResponseEntity<Products> getProductInfo(@PathVariable String productId) {
+        try {
+            Products product = productImplementation.getProductById(productId);
+            if (product != null) {
+                return new ResponseEntity<>(product, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<Page<SendHomePageProductsDTO>> getProductsList() {
+        try{
+            Page<SendHomePageProductsDTO> products =  productImplementation.getProductsList();
+            return new ResponseEntity<>(products, HttpStatus.OK);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }   
     }
 }

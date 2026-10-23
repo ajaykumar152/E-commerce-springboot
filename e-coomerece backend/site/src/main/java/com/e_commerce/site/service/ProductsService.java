@@ -1,14 +1,17 @@
 package com.e_commerce.site.service;
 
 import com.e_commerce.site.members.Products;
+import com.e_commerce.site.DTO.GetNewProductDTO;
 import org.springframework.data.domain.Page;
-import org.springframework.web.multipart.MultipartFile;
+import com.e_commerce.site.DTO.SendHomePageProductsDTO;
 
 import java.util.List;
 
 public interface ProductsService {
 
-    boolean addProduct(Double price, String name, String type, MultipartFile file);
+    boolean addProduct(GetNewProductDTO productDTO);
     boolean removeProduct(Products products);
-    Page<Products> getProducts(int page, int size);
+    Page<SendHomePageProductsDTO> getProducts(int page, int size);
+    Products getProductById(String productId);
+    Page<SendHomePageProductsDTO> getProductsList();
 }
